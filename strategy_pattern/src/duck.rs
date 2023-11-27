@@ -3,6 +3,7 @@ pub mod quack_behaviours;
 
 use fly_behaviours::*;
 use quack_behaviours::*;
+use duck_macro::Duck;
 
 // Define QuackBehaviour trait
 pub trait QuackBehaviour {
@@ -24,7 +25,7 @@ pub trait Duck {
 }
 
 // Implement various Ducks
-// TODO: Create derive macro
+#[derive(Duck)]
 pub struct MallardDuck {
     quack_behaviour: Box<dyn QuackBehaviour>,
     fly_behaviour: Box<dyn FlyBehaviour>,
@@ -39,23 +40,7 @@ impl MallardDuck {
         }
     }
 }
-impl Duck for MallardDuck {
-    fn display(&self) {
-        println!("I am a MallardDuck! 🦆");
-    }
-    fn quack(&self) {
-        self.quack_behaviour.quack();
-    }
-    fn fly(&self) {
-        self.fly_behaviour.fly();
-    }
-    fn set_quack_behaviour(&mut self, quack_behaviour: Box<dyn QuackBehaviour>) {
-        self.quack_behaviour = quack_behaviour;
-    }
-    fn set_fly_behaviour(&mut self, fly_behaviour: Box<dyn FlyBehaviour>) {
-        self.fly_behaviour = fly_behaviour;
-    }
-}
+#[derive(Duck)]
 pub struct RubberDuck {
     quack_behaviour: Box<dyn QuackBehaviour>,
     fly_behaviour: Box<dyn FlyBehaviour>,
@@ -68,22 +53,5 @@ impl RubberDuck {
             quack_behaviour,
             fly_behaviour,
         }
-    }
-}
-impl Duck for RubberDuck {
-    fn display(&self) {
-        println!("I am a RubberDuck! 🦆");
-    }
-    fn quack(&self) {
-        self.quack_behaviour.quack();
-    }
-    fn fly(&self) {
-        self.fly_behaviour.fly();
-    }
-    fn set_quack_behaviour(&mut self, quack_behaviour: Box<dyn QuackBehaviour>) {
-        self.quack_behaviour = quack_behaviour;
-    }
-    fn set_fly_behaviour(&mut self, fly_behaviour: Box<dyn FlyBehaviour>) {
-        self.fly_behaviour = fly_behaviour;
     }
 }
