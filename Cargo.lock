@@ -11,6 +11,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "observer_pattern"
+version = "0.1.0"
+
+[[package]]
 name = "proc-macro2"
 version = "1.0.70"
 source = "registry+https://github.com/rust-lang/crates.io-index"
