@@ -3,6 +3,10 @@
 version = 3
 
 [[package]]
+name = "decorator_pattern"
+version = "0.1.0"
+
+[[package]]
 name = "duck_macro"
 version = "0.1.0"
 dependencies = [
