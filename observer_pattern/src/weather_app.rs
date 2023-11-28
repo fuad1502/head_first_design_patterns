@@ -6,9 +6,8 @@ pub trait Subject {
     fn notify_observers(&self);
 }
 
-// TODO: Let observer grab the required information from the subject themselves
 pub trait Observer {
-    fn update(&mut self, temperature: f64, humidity: f64);
+    fn update(&mut self);
 }
 
 pub trait Display {
@@ -41,7 +40,6 @@ impl WeatherData {
     pub fn set_data(&mut self, temperature: f64, humidity: f64) {
         self.temperature = temperature;
         self.humidity = humidity;
-        self.notify_observers();
     }
 }
 
@@ -52,19 +50,21 @@ impl Subject for WeatherData {
 
     fn notify_observers(&self) {
         for o in self.observers.iter() {
-            o.borrow_mut().update(self.temperature, self.humidity);
+            o.borrow_mut().update();
         }
     }
 }
 
 pub struct CurrentConditionsDisplay {
+    weather_data: Rc<RefCell<WeatherData>>,
     temperature: f64,
     humidity: f64,
 }
 
 impl CurrentConditionsDisplay {
-    pub fn new() -> CurrentConditionsDisplay {
+    pub fn new(weather_data: Rc<RefCell<WeatherData>>) -> CurrentConditionsDisplay {
         CurrentConditionsDisplay {
+            weather_data,
             temperature: 0.0,
             humidity: 0.0,
         }
@@ -72,9 +72,9 @@ impl CurrentConditionsDisplay {
 }
 
 impl Observer for CurrentConditionsDisplay {
-    fn update(&mut self, temperature: f64, humidity: f64) {
-        self.temperature = temperature;
-        self.humidity = humidity;
+    fn update(&mut self) {
+        self.temperature = self.weather_data.borrow().get_temperature();
+        self.humidity = self.weather_data.borrow().get_humidity();
         self.display();
     }
 }
@@ -89,6 +89,7 @@ impl Display for CurrentConditionsDisplay {
 }
 
 pub struct AverageConditionsDisplay {
+    weather_data: Rc<RefCell<WeatherData>>,
     update_count: i64,
     average_temperature: f64,
     max_temperature: f64,
@@ -96,8 +97,9 @@ pub struct AverageConditionsDisplay {
 }
 
 impl AverageConditionsDisplay {
-    pub fn new() -> AverageConditionsDisplay {
+    pub fn new(weather_data: Rc<RefCell<WeatherData>>) -> AverageConditionsDisplay {
         AverageConditionsDisplay {
+            weather_data,
             update_count: 0,
             average_temperature: 0.0,
             max_temperature: f64::MIN,
@@ -107,7 +109,8 @@ impl AverageConditionsDisplay {
 }
 
 impl Observer for AverageConditionsDisplay {
-    fn update(&mut self, temperature: f64, _humidity: f64) {
+    fn update(&mut self) {
+        let temperature = self.weather_data.borrow().get_temperature();
         if temperature > self.max_temperature {
             self.max_temperature = temperature;
         }
