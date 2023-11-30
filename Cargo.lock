@@ -15,8 +15,23 @@ dependencies = [
 ]
 
 [[package]]
+name = "factory_pattern"
+version = "0.1.0"
+dependencies = [
+ "pizza_store_macro",
+]
+
+[[package]]
 name = "observer_pattern"
 version = "0.1.0"
+
+[[package]]
+name = "pizza_store_macro"
+version = "0.1.0"
+dependencies = [
+ "quote",
+ "syn",
+]
 
 [[package]]
 name = "proc-macro2"

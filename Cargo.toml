@@ -3,6 +3,7 @@ members = [
 	"strategy_pattern",
 	"observer_pattern",
 	"decorator_pattern",
+	"factory_pattern",
 ]
 resolver = "2"
 
