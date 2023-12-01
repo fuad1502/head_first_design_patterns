@@ -52,6 +52,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "singleton_pattern"
+version = "0.1.0"
+
+[[package]]
 name = "strategy_pattern"
 version = "0.1.0"
 dependencies = [
