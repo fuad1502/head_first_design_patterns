@@ -5,6 +5,7 @@ members = [
 	"decorator_pattern",
 	"factory_pattern",
 	"singleton_pattern",
+	"command_pattern",
 ]
 resolver = "2"
 
