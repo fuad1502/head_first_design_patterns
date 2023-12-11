@@ -6,6 +6,7 @@ members = [
 	"factory_pattern",
 	"singleton_pattern",
 	"command_pattern",
+	"template_pattern",
 ]
 resolver = "2"
 
