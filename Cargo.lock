@@ -26,6 +26,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "iterator_composite_pattern"
+version = "0.1.0"
+
+[[package]]
 name = "observer_pattern"
 version = "0.1.0"
 
