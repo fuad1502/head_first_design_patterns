@@ -8,6 +8,7 @@ members = [
 	"command_pattern",
 	"template_pattern",
 	"iterator_composite_pattern",
+	"state_pattern",
 ]
 resolver = "2"
 
