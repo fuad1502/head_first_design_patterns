@@ -10,6 +10,7 @@ members = [
 	"iterator_composite_pattern",
 	"state_pattern",
 	"virtual_proxy_pattern",
+	"remote_proxy_pattern",
 ]
 resolver = "2"
 

@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package gumball_machine_service;
+
+service GumballMachineService {
+  rpc getState(EmptyRequest) returns (GumballStateResponse) {}
+  rpc getGumballCount(EmptyRequest) returns (GumballCountResponse) {}
+  rpc getLocation(EmptyRequest) returns (GumballLocationResponse) {}
+  rpc insertQuarter(EmptyRequest) returns (EmptyResponse) {}
+  rpc ejectQuarter(EmptyRequest) returns (EmptyResponse) {}
+  rpc turnCrank(EmptyRequest) returns (EmptyResponse) {}
+  rpc refill(RefillRequest) returns (EmptyResponse) {}
+}
+
+enum GumballState {
+  NO_QUARTER = 0;
+  HAS_QUARTER = 1;
+  GUMBALL_SOLD = 3;
+  OUT_OF_GUMBALLS = 4;
+  WINNER = 5;
+}
+
+message GumballLocationResponse { optional string location = 1; }
+message GumballStateResponse { optional GumballState state = 1; }
+message GumballCountResponse { optional uint32 count = 1; }
+message RefillRequest { optional uint32 gumballs = 1; }
+message EmptyRequest {}
+message EmptyResponse {}
