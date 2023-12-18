@@ -4,12 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [[bin]]
-name = "gumball_machine_server"
-path = "src/gumball_machine_server.rs"
-
-[[bin]]
-name = "gumball_monitor_client"
-path = "src/gumball_monitor_client.rs"
+name = "gumball_machine_remote_monitoring_test"
+path = "src/gumball_machine_remote_monitoring_test.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -17,6 +13,7 @@ path = "src/gumball_monitor_client.rs"
 futures = "0.3.29"
 prost = "0.12.3"
 rand = "0.8.4"
+termion = "2.0.3"
 tokio = { version = "1.35.0", features = ["macros", "rt-multi-thread"] }
 tonic = "0.10.2"
 

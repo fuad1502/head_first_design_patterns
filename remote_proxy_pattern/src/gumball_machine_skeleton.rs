@@ -7,18 +7,17 @@ use gumball_machine_service::{
     EmptyRequest, EmptyResponse, GumballCountResponse, GumballLocationResponse,
     GumballStateResponse, RefillRequest,
 };
+use std::sync::Arc;
 use std::sync::Mutex;
 use tonic::{Request, Response, Status};
 
 pub struct GumballMachineSkeleton {
-    gumball_machine: Mutex<GumballMachine>,
+    gumball_machine: Arc<Mutex<GumballMachine>>,
 }
 
 impl GumballMachineSkeleton {
-    pub fn new(gumballs: usize, location: String) -> Self {
-        GumballMachineSkeleton {
-            gumball_machine: Mutex::new(GumballMachine::new(gumballs, location)),
-        }
+    pub fn new(gumball_machine: Arc<Mutex<GumballMachine>>) -> Self {
+        GumballMachineSkeleton { gumball_machine }
     }
 }
 
