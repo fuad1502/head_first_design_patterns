@@ -12,33 +12,6 @@ use termion;
 use tokio::task;
 use tonic::transport::Server;
 
-fn clear_screen() {
-    print!(
-        "{}{}{}",
-        termion::clear::All,
-        termion::cursor::Goto(1, 1),
-        termion::cursor::Hide
-    );
-}
-
-fn move_cursor_up() {
-    print!("{}", termion::cursor::Goto(1, 20));
-    for _i in 0..5 {
-        print!("{}", termion::clear::CurrentLine);
-        print!("{}", termion::cursor::Down(1));
-    }
-    print!("{}", termion::cursor::Goto(1, 20));
-}
-
-fn move_cursor_down() {
-    print!(
-        "{}{}",
-        termion::cursor::Goto(1, 26),
-        termion::clear::AfterCursor
-    );
-    println!("🔧 Action Performed: ");
-}
-
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Create the gumball machine
@@ -63,11 +36,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let print_mutex = Arc::new(Mutex::new(()));
     let print_mutex_clone = Arc::clone(&print_mutex);
 
-    // Create the gumball machine stub
-    let gumball_machine_stub = GumballMachineStub::new("http://[::1]:50051".to_string());
-
+    // Print the demo title
     clear_screen();
-
     println!(
         "
         REMOTE PROXY PATTERN DEMO    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -89,7 +59,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     GUMBALL MACHINE REMOTE MONITORING"
     );
 
-    // Create the gumball monitor thread
+    // Create the gumball machine stub
+    // INFO: Somehow I cannot create the gumball machine stub in the same thread as the gumball monitor
+    let gumball_machine_stub = GumballMachineStub::new("http://[::1]:50051".to_string());
+
+    // Create gumball monitor thread
     let _monitor_thread = thread::spawn(move || {
         let gumball_monitor = GumballMonitor::new(Box::new(gumball_machine_stub));
         loop {
@@ -101,7 +75,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     });
 
-    // Create thread for playing with gumball_machine
+    // Create thread for playing with actual gumball_machine
     let play_thread = thread::spawn(move || {
         // Refill gumball machine
         let p = print_mutex_clone.lock().unwrap();
@@ -135,4 +109,31 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     play_thread.join().unwrap();
 
     Ok(())
+}
+
+fn clear_screen() {
+    print!(
+        "{}{}{}",
+        termion::clear::All,
+        termion::cursor::Goto(1, 1),
+        termion::cursor::Hide
+    );
+}
+
+fn move_cursor_up() {
+    print!("{}", termion::cursor::Goto(1, 20));
+    for _i in 0..5 {
+        print!("{}", termion::clear::CurrentLine);
+        print!("{}", termion::cursor::Down(1));
+    }
+    print!("{}", termion::cursor::Goto(1, 20));
+}
+
+fn move_cursor_down() {
+    print!(
+        "{}{}",
+        termion::cursor::Goto(1, 26),
+        termion::clear::AfterCursor
+    );
+    println!("🔧 Action Performed: ");
 }
